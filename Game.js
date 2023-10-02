@@ -1,8 +1,9 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Pressable } from "react-native";
 import React from 'react';
 import { SafeAreaView } from "react-native-safe-area-context";
 import jsonData from "./dict.json";
 import { StatusBar } from "expo-status-bar";
+import Icon from 'react-native-ico-material-design';
 
 // extracting data
 const customData = require('./')
@@ -53,12 +54,15 @@ const Boxes = () => {
                 value.map((item) => (
                     <View style={styles.box}>
                         <View style={styles.inner}>
-                            <Text>{item}</Text>
+                            <Pressable style={styles.IconBehave}>
+                                <Icon name="thumb-up-button" color='#448aff' />
+                            </Pressable>
+                            <Text style={styles.styletext}>{item}</Text>
                         </View>
                     </View>
                 )
                 )}
-        </View>
+        </View >
     )
 }
 const styles = StyleSheet.create({
@@ -81,5 +85,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#c8c8c8',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    IconBehave: {
+        alignSelf: "flex-end",
+        paddingRight: 5
+    },
+    styletext: {
+        paddingTop: 15
     }
 });

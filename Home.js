@@ -1,15 +1,9 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from 'react';
 import { SafeAreaView } from "react-native-safe-area-context";
 import jsonData from "./dict.json";
 import { StatusBar } from "expo-status-bar";
-// const Header = () => {
-//   return (
-//     <View style={styles.header}>
-//       <Text>Header App</Text>
-//     </View>
-//   )
-// }
+
 // extracting data
 const customData = require('./')
 const num = [1, 2, 3, 4, 5, 6];
@@ -65,6 +59,9 @@ const Boxes = () => {
           <View style={styles.box}>
             <View style={styles.inner}>
               <Text>{item}</Text>
+              <TouchableOpacity>
+
+              </TouchableOpacity>
             </View>
           </View>
         )
@@ -100,5 +97,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#c8c8c8',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  thumb: {
+
   }
 });
