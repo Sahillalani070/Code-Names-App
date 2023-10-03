@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from 'react';
 import { SafeAreaView } from "react-native-safe-area-context";
 import jsonData from "./dict.json";
@@ -6,8 +6,6 @@ import { StatusBar } from "expo-status-bar";
 import Icon from 'react-native-ico-material-design';
 
 // extracting data
-const customData = require('./')
-const num = [1, 2, 3, 4, 5, 6];
 const DataList = jsonData.words;
 var value = IndicestoWords();
 
@@ -49,48 +47,101 @@ export default function Home() {
 }
 const Boxes = () => {
     return (
-        <View style={styles.boxContainer}>
-            {
-                value.map((item) => (
-                    <View style={styles.box}>
-                        <View style={styles.inner}>
-                            <Pressable style={styles.IconBehave}>
-                                <Icon name="thumb-up-button" color='#448aff' />
-                            </Pressable>
-                            <Text style={styles.styletext}>{item}</Text>
-                        </View>
-                    </View>
-                )
-                )}
-        </View >
+        <View style={styles.Screen}>
+            <View style={styles.boxContainer}>
+                {
+                    value.map((item) => (
+                        <TouchableOpacity style={styles.box}>
+                            <View style={styles.inner}>
+                                <TouchableOpacity style={styles.IconBehave}>
+                                    <Icon name="thumb-up-button" style={{ color: '#448aff' }} height="12" />
+                                </TouchableOpacity>
+                                <Text style={styles.styletext}>{item}</Text>
+                            </View>
+                        </TouchableOpacity>
+                    )
+                    )}
+            </View >
+            <View style={styles.Cluebox}></View>
+            <View style={styles.boxContainer2}>
+                <View style={styles.teambox} backgroundColor="rgb(236,91,32)">
+                    <Text>Red Team</Text>
+                </View>
+                <View style={styles.Gamelog} backgroundColor="rgb(242,215,180)">
+                </View>
+                <View style={styles.teambox} backgroundColor="rgb(2,172,197)">
+                    <Text>Blue Team</Text>
+                </View>
+            </View>
+        </View>
     )
 }
 const styles = StyleSheet.create({
     boxContainer: {
         width: '100%',
+        height: '40%',
+        //backgroundColor: 'red',
+        padding: 2,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+    },
+    boxContainer2: {
+        width: '100%',
         height: '100%',
         //backgroundColor: 'red',
-        padding: 5,
+        // padding: 2,
         flexDirection: 'row',
-        flexWrap: 'wrap'
+        // flexWrap: 'wrap',
     },
+
     box: {
         width: '20%',
         height: '20%',
-        padding: 5,
-        //backgroundColor: 'green'
+        padding: 2,
+        backgroundColor: 'green'
     },
     inner: {
         flex: 1,
         backgroundColor: '#c8c8c8',
         alignItems: 'center',
         justifyContent: 'center',
+        borderRadius: 10
     },
     IconBehave: {
         alignSelf: "flex-end",
-        paddingRight: 5
+        paddingRight: 2,
+        paddingBottom: 2,
+        fontSize: 10
     },
     styletext: {
-        paddingTop: 15
+        paddingBottom: 15,
+        fontSize: 10
+    },
+    teambox: {
+        // paddingTop: 2,
+        height: '50%',
+        width: '35%',
+        // borderWidth: 2, // Border width in pixels
+        // borderColor: 'black', // Border color
+        // borderRadius: 10,
+    },
+    Gamelog: {
+        height: '50%',
+        width: '30%',
+        borderWidth: 2, // Border width in pixels
+        borderColor: 'black', // Border color
+        borderRadius: 10,
+        padding: 15
+    },
+    Cluebox: {
+        width: '100%',
+        height: '10%',
+        borderWidth: 2, // Border width in pixels
+        borderColor: 'black', // Border color
+        borderRadius: 10,
+    },
+    Screen: {
+        height: '100%',
+        width: '100%'
     }
 });

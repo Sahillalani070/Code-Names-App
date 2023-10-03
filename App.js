@@ -6,6 +6,7 @@ import React from 'react'
 import Home from './Home';
 import Profile from './Profile';
 import Game from './Game';
+import OnBoarding from './OnBoarding';
 
 const Drawer = createDrawerNavigator();
 
@@ -16,7 +17,8 @@ export default function App() {
     //   <StatusBar style="auto" /> */}
     // </View>
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Home" options={{ headerShown: false }}>
+      <Drawer.Navigator initialRouteName="OnBoarding" options={{ headerShown: false }}>
+        <Drawer.Screen name="OnBoarding" component={OnBoarding} options={{ headerShown: false }} />
         <Drawer.Screen name="Home" component={Home} options={{ headerShown: false }} />
         <Drawer.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
         <Drawer.Screen name="Game" component={Game} options={{ headerShown: false }} />
