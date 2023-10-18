@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, TextInput } from "react-native";
 import React from 'react';
 import { SafeAreaView } from "react-native-safe-area-context";
 import jsonData from "./dict.json";
@@ -18,7 +18,7 @@ function RandomIndices() {
             x = Math.floor(Math.random() * DataList.length)
         }
         list1.push(x);
-        console.log(x);
+        // console.log(x);
     }
     return (list1);
 }
@@ -32,50 +32,55 @@ function IndicestoWords() {
         listw.push(DataList[listi[n]]);
         n++;
     }
-    console.log(listw)
+    // console.log(listw)
     return listw;
 }
-export default function Home() {
+const Game = () => {
+    const Boxes = () => {
+        return (
+            <View style={styles.Screen}>
+                <View style={styles.boxContainer}>
+                    {
+                        value.map((item, index) => (
+                            <TouchableOpacity key={index} style={styles.box} OnPress={() => { console.log("object"); }}>
+                                <View style={styles.inner}>
+                                    <TouchableOpacity style={styles.IconBehave} OnPress={() => { console.log("key"); }}>
+                                        <Icon name="thumb-up-button" style={{ color: '#448aff' }} height="12" />
+                                    </TouchableOpacity>
+                                    <Text style={styles.styletext}>{item}</Text>
+                                </View>
+                            </TouchableOpacity>
+                        )
+                        )}
+                </View>
+                <View style={styles.Cluebox}>
+                    <TextInput style={{ height: "50%", width: "50%", borderWidth: 1, borderRadius: 10, alignSelf: "center" }}
+                        placeholder="Type here..."
+                    />
+
+                </View>
+                <View style={styles.boxContainer2}>
+                    <View style={styles.teambox} backgroundColor="rgb(236,91,32)">
+                        <Text>Red Team</Text>
+                    </View>
+                    <View style={styles.Gamelog} backgroundColor="rgb(242,215,180)">
+                    </View>
+                    <View style={styles.teambox} backgroundColor="rgb(2,172,197)">
+                        <Text>Blue Team</Text>
+                    </View>
+                </View>
+            </View>
+        )
+    }
     return (
         <View>
             <StatusBar hidden />
-            <SafeAreaView style={styles.container}>
-                <Boxes />
-            </SafeAreaView>
+
+            <Boxes />
         </View>
     );
 }
-const Boxes = () => {
-    return (
-        <View style={styles.Screen}>
-            <View style={styles.boxContainer}>
-                {
-                    value.map((item) => (
-                        <TouchableOpacity style={styles.box}>
-                            <View style={styles.inner}>
-                                <TouchableOpacity style={styles.IconBehave}>
-                                    <Icon name="thumb-up-button" style={{ color: '#448aff' }} height="12" />
-                                </TouchableOpacity>
-                                <Text style={styles.styletext}>{item}</Text>
-                            </View>
-                        </TouchableOpacity>
-                    )
-                    )}
-            </View >
-            <View style={styles.Cluebox}></View>
-            <View style={styles.boxContainer2}>
-                <View style={styles.teambox} backgroundColor="rgb(236,91,32)">
-                    <Text>Red Team</Text>
-                </View>
-                <View style={styles.Gamelog} backgroundColor="rgb(242,215,180)">
-                </View>
-                <View style={styles.teambox} backgroundColor="rgb(2,172,197)">
-                    <Text>Blue Team</Text>
-                </View>
-            </View>
-        </View>
-    )
-}
+export default Game;
 const styles = StyleSheet.create({
     boxContainer: {
         width: '100%',
