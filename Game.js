@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from "react-native";
 import React from 'react';
-import { SafeAreaView } from "react-native-safe-area-context";
 import jsonData from "./dict.json";
 import { StatusBar } from "expo-status-bar";
 import Icon from 'react-native-ico-material-design';
@@ -35,6 +34,9 @@ function IndicestoWords() {
     // console.log(listw)
     return listw;
 }
+const boxfun = () => {
+    console.log('hi')
+}
 const Game = () => {
     const Boxes = () => {
         return (
@@ -42,9 +44,9 @@ const Game = () => {
                 <View style={styles.boxContainer}>
                     {
                         value.map((item, index) => (
-                            <TouchableOpacity key={index} style={styles.box} OnPress={() => { console.log("object"); }}>
+                            <TouchableOpacity key={index} style={styles.box} onPress={() => { console.log(index); }}>
                                 <View style={styles.inner}>
-                                    <TouchableOpacity style={styles.IconBehave} OnPress={() => { console.log("key"); }}>
+                                    <TouchableOpacity style={styles.IconBehave} onPress={() => { console.log("key"); }}>
                                         <Icon name="thumb-up-button" style={{ color: '#448aff' }} height="12" />
                                     </TouchableOpacity>
                                     <Text style={styles.styletext}>{item}</Text>
