@@ -1,0 +1,45 @@
+enum WordState {
+  RED
+  BLUE
+  ASSASIN
+  NEUTRAL
+}
+
+type WordType {
+  Word: String
+  Type: WordState
+}
+
+type GameBoard @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  BoardID: String
+  Words: [WordType]
+}
+
+type Player @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  PlayerID: ID!
+  PlayerName: String
+  Team: TeamColor
+  Score: Int
+}
+
+enum TeamColor {
+  RED
+  BLUE
+}
+
+enum StateGame {
+  WAITING
+  IN_PROGRESS
+  COMPLETED
+}
+
+type GameSession @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  SessionID: ID!
+  Players: [String]!
+  BoardID: [ID]
+  GameState: StateGame
+  CurrentTurn: TeamColor
+}

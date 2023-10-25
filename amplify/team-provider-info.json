@@ -10,6 +10,11 @@
       "StackName": "amplify-codenames-staging-170627",
       "StackId": "arn:aws:cloudformation:ca-central-1:534382845345:stack/amplify-codenames-staging-170627/815b9470-71c6-11ee-895e-06ebbd43e308",
       "AmplifyAppId": "d1y76recyplpy"
+    },
+    "categories": {
+      "auth": {
+        "CodeNames": {}
+      }
     }
   }
 }
