@@ -1,7 +1,7 @@
 enum WordState {
   RED
   BLUE
-  ASSASIN
+  ASSASSIN
   NEUTRAL
 }
 
@@ -43,3 +43,4 @@ type GameSession @model @auth(rules: [{allow: public}]) {
   GameState: StateGame
   CurrentTurn: TeamColor
 }
+ 
