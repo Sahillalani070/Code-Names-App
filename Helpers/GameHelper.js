@@ -1,13 +1,63 @@
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from "react-native";
-import React from 'react';
-import jsonData from "./dict.json";
+import React, { useState } from 'react';
+import jsonData from "../dict.json";
 import { StatusBar } from "expo-status-bar";
 import Icon from 'react-native-ico-material-design';
 import { useNavigation } from "@react-navigation/native";
-
+import { Auth, DataStore, API, graphqlOperation } from "aws-amplify";
+import { GameSession, Player, StateGame, TeamColor } from "../src/models";
+import { createGameSession, createPlayer } from "../src/graphql/mutations";
+import "@azure/core-asynciterator-polyfill";
 // extracting data
 const DataList = jsonData.words;
 var value = IndicestoWords();
+// const [game, setGame] = useState(null);
+const AddOrJoinGame = async () => {
+    // code to join pre-existing game
+
+    // code to create a new game
+    await createGame();
+}
+const createGame = async () => {
+    const userData = await Auth.currentAuthenticatedUser();
+
+    // const response = await API.graphql(graphqlOperation(createPlayer, {
+    //     input: {
+    //         id: userData.attributes.sub,
+    //         PlayerName: userData.attributes.nickname,
+    //         Team: TeamColor.UNDECIDED,
+    //         Score: 0,
+    //     },
+    // }),
+    // );
+    // console.log("Response: \n");
+    // console.log(response);
+
+    const response2 = await API.graphql(graphqlOperation(createGameSession, {
+        input: {
+            Players: [userData.attributes.nickname],
+            GameState: StateGame.WAITING,
+            CurrentTurn: TeamColor.UNDECIDED,
+        },
+    }),
+    );
+    console.log("Response: \n");
+    console.log(response2);
+    // const newPlayer = await DataStore.save(new Player({
+    //     PlayerName: userData.attributes.nickname,
+    //     Team: TeamColor.UNDECIDED,
+    //     Score: 0
+    // })
+    // );
+    // console.log(userData)
+    //     const newGame = new GameSession({
+    //         Players: [userData.attributes.nickname],
+    //         GameState: StateGame.WAITING,
+    //         CurrentTurn: TeamColor.UNDECIDED
+    //     });
+    //     // console.log(newGame);
+    //     await DataStore.save(newGame);
+};
 
 // Generate Random indicies
 function RandomIndices() {
@@ -38,6 +88,7 @@ function IndicestoWords() {
 const Boxes = () => {
     return (
         <View style={styles.Screen}>
+            {/* <Text>Game ID: {GameSession.id} </Text> */}
             <View style={styles.boxContainer}>
                 {
                     value.map((item, index) => (
@@ -59,19 +110,19 @@ const Boxes = () => {
 
             </View>
             <View style={styles.boxContainer2}>
-                <View style={styles.teambox} backgroundColor="rgb(236,91,32)">
+                <View style={styles.teambox}>
                     <Text>Red Team</Text>
                 </View>
-                <View style={styles.Gamelog} backgroundColor="rgb(242,215,180)">
+                <View style={styles.Gamelog}>
                 </View>
-                <View style={styles.teambox} backgroundColor="rgb(2,172,197)">
+                <View style={styles.teambox}>
                     <Text>Blue Team</Text>
                 </View>
             </View>
-        </View>
+        </View >
     )
 }
-export default Boxes;
+export { Boxes, AddOrJoinGame }
 const styles = StyleSheet.create({
     boxContainer: {
         width: '100%',

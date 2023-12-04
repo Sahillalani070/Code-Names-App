@@ -10,15 +10,8 @@ type WordType {
   Type: WordState
 }
 
-type GameBoard @model @auth(rules: [{allow: public}]) {
-  id: ID!
-  BoardID: String
-  Words: [WordType]
-}
-
 type Player @model @auth(rules: [{allow: public}]) {
   id: ID!
-  PlayerID: ID!
   PlayerName: String
   Team: TeamColor
   Score: Int
@@ -27,6 +20,7 @@ type Player @model @auth(rules: [{allow: public}]) {
 enum TeamColor {
   RED
   BLUE
+  UNDECIDED
 }
 
 enum StateGame {
@@ -37,9 +31,7 @@ enum StateGame {
 
 type GameSession @model @auth(rules: [{allow: public}]) {
   id: ID!
-  SessionID: ID!
   Players: [String]!
-  BoardID: [ID]
   GameState: StateGame
   CurrentTurn: TeamColor
 }

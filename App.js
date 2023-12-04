@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { Amplify } from 'aws-amplify';
+import { Amplify } from '@aws-amplify/core';
 import config from "./src/aws-exports";
-import { withAuthenticator, useAuthenticator } from '@aws-amplify/ui-react-native';
-import Nav from './Navbar';
+import { withAuthenticator } from "@aws-amplify/ui-react-native"
+import Nav from './Helpers/Navbar';
 
 Amplify.configure(config);
 

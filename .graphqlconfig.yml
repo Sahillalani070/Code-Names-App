@@ -1,0 +1,18 @@
+projects:
+  CodeNames:
+    schemaPath: amplify/backend/api/CodeNames/build/schema.graphql
+    includes:
+      - ''
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: javascript
+        generatedFileName: ''
+        docsFilePath: .
+        region: ca-central-1
+        apiId: null
+        maxDepth: 2
+extensions:
+  amplify:
+    version: 3
