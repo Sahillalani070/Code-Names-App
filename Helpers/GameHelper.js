@@ -7,16 +7,32 @@ import { useNavigation } from "@react-navigation/native";
 import { Auth, DataStore, API, graphqlOperation } from "aws-amplify";
 import { GameSession, Player, StateGame, TeamColor } from "../src/models";
 import { createGameSession, createPlayer } from "../src/graphql/mutations";
+import * as queries from '../src/graphql/queries';
+
 import "@azure/core-asynciterator-polyfill";
 // extracting data
 const DataList = jsonData.words;
 var value = IndicestoWords();
 // const [game, setGame] = useState(null);
 const AddOrJoinGame = async () => {
+    const game = await availableGame();
     // code to join pre-existing game
-
+    if (game.length > 0) {
+        joinGame(GameSession);
+    }
     // code to create a new game
-    await createGame();
+    else {
+        await createGame();
+    }
+}
+const availableGame = async () => {
+    const result = await API.graphql({ query: queries.listGameSessions });
+    const game = result.data.listGameSessions.items;
+    console.log("Queried Data:", game);
+    return game;
+}
+const joinGame = (GameSession) => {
+    console.log(`joining ${GameSession}`)
 }
 const createGame = async () => {
     const userData = await Auth.currentAuthenticatedUser();

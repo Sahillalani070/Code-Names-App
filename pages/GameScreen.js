@@ -108,14 +108,15 @@ const NewGame = () => {
                     <TouchableOpacity style={{ width: "50%", height: 50, paddingTop: 7, alignSelf: "center", backgroundColor: "teal", borderRadius: 10 }}
                         onPress={() => {
                             console.log("I'm tapped");
-                            setOpenModal(true);
+                            // setOpenModal(true);
+                            AddOrJoinGame();
                         }}>
                         <View>
-                            <Text style={{ textAlign: "center", alignSelf: "center", color: "white", paddingTop: 10 }}>Create New Game</Text>
+                            <Text style={{ textAlign: "center", alignSelf: "center", color: "white", paddingTop: 10 }}>Play Game</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
-                <View style={{ height: 100 }}>
+                {/* <View style={{ height: 100 }}>
                     <TouchableOpacity style={{ width: "50%", height: 50, paddingTop: 7, alignSelf: "center", backgroundColor: "teal", borderRadius: 10 }}
                         onPress={() => {
                             console.log("I'm tap");
@@ -127,7 +128,7 @@ const NewGame = () => {
                     </TouchableOpacity>
                 </View>
                 {NewModal()}
-                {JoinModal()}
+                {JoinModal()} */}
             </ImageBackground >
         </View >
     )
