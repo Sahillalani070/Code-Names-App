@@ -13,12 +13,17 @@ import "@azure/core-asynciterator-polyfill";
 // extracting data
 const DataList = jsonData.words;
 var value = IndicestoWords();
+var mapvals = mapGen();
+var maplist = mapvals[0];
+var startteam = mapvals[1];
+console.log(maplist);
 // const [game, setGame] = useState(null);
+
 const AddOrJoinGame = async () => {
     const game = await availableGame();
     // code to join pre-existing game
     if (game.length > 0) {
-        joinGame(GameSession);
+        joinGame(game[0]);
     }
     // code to create a new game
     else {
@@ -31,7 +36,7 @@ const availableGame = async () => {
     console.log("Queried Data:", game);
     return game;
 }
-const joinGame = (GameSession) => {
+const joinGame = async (game) => {
     console.log(`joining ${GameSession}`)
 }
 const createGame = async () => {
@@ -88,7 +93,42 @@ function RandomIndices() {
     }
     return (list1);
 }
+function mapGen() {
 
+    var maplist = [];
+    var blue = 9;
+    var red = 9;
+    var white = 7;
+    var assasin = 1
+    while (maplist.length < 25) {
+        var x = Math.floor(Math.random() * 4);
+        if (x == 0 && blue > 0) {
+            maplist.push("blue");
+            blue -= 1;
+        }
+        else if (x == 1 && red > 0) {
+            maplist.push("red");
+            red -= 1;
+        }
+        else if (x == 2 && white) {
+            maplist.push("white");
+            white -= 1;
+        }
+        else if (x == 3 && assasin > 0) {
+            maplist.push("gray");
+            assasin -= 1;
+        }
+
+    }
+    var startteam = "None";
+    if (blue == 1) {
+        startteam = "red";
+    }
+    else {
+        startteam = "blue";
+    }
+    return ([maplist, startteam]);
+}
 function IndicestoWords() {
     var listi = RandomIndices();
     var listw = [""];
@@ -101,16 +141,22 @@ function IndicestoWords() {
     // console.log(listw)
     return listw;
 }
+
 const Boxes = () => {
+    const [boxcolor, setBoxcolor] = React.useState(-1);
+    function updateColor(index) {
+        setBoxcolor(index);
+    }
+
     return (
         <View style={styles.Screen}>
             {/* <Text>Game ID: {GameSession.id} </Text> */}
             <View style={styles.boxContainer}>
                 {
                     value.map((item, index) => (
-                        <TouchableOpacity key={index} style={styles.box} onPress={() => { console.log(index); }}>
-                            <View style={styles.inner}>
-                                <TouchableOpacity style={styles.IconBehave} onPress={() => { console.log("key"); }}>
+                        <TouchableOpacity key={index} style={styles.box}>
+                            <View style={[styles.inner, boxcolor === index ? { backgroundColor: maplist[index] } : { backgroundColor: "#c8c8c8" }]}>
+                                <TouchableOpacity style={styles.IconBehave} onPress={() => { updateColor(index); console.log(index); }}>
                                     <Icon name="thumb-up-button" style={{ color: '#448aff' }} height="12" />
                                 </TouchableOpacity>
                                 <Text style={styles.styletext}>{item}</Text>
@@ -166,6 +212,34 @@ const styles = StyleSheet.create({
     inner: {
         flex: 1,
         backgroundColor: '#c8c8c8',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10
+    },
+    innerblue: {
+        flex: 1,
+        backgroundColor: 'blue',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10
+    },
+    innerred: {
+        flex: 1,
+        backgroundColor: 'red',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10
+    },
+    innerwhite: {
+        flex: 1,
+        backgroundColor: 'white',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10
+    },
+    innerblack: {
+        flex: 1,
+        backgroundColor: 'black',
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 10
