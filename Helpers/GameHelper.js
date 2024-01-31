@@ -143,9 +143,12 @@ function IndicestoWords() {
 }
 
 const Boxes = () => {
-    const [boxcolor, setBoxcolor] = React.useState(-1);
+    const [boxcolor, setBoxcolor] = React.useState([]);
     function updateColor(index) {
-        setBoxcolor(index);
+        let tempBoxColor = [...boxcolor];
+        if (!tempBoxColor.includes(index))
+            tempBoxColor.push(index)
+        setBoxcolor(tempBoxColor);
     }
 
     return (
@@ -155,7 +158,7 @@ const Boxes = () => {
                 {
                     value.map((item, index) => (
                         <TouchableOpacity key={index} style={styles.box}>
-                            <View style={[styles.inner, boxcolor === index ? { backgroundColor: maplist[index] } : { backgroundColor: "#c8c8c8" }]}>
+                            <View style={[styles.inner, boxcolor.includes(index) ? { backgroundColor: maplist[index] } : { backgroundColor: "#c8c8c8" }]}>
                                 <TouchableOpacity style={styles.IconBehave} onPress={() => { updateColor(index); console.log(index); }}>
                                     <Icon name="thumb-up-button" style={{ color: '#448aff' }} height="12" />
                                 </TouchableOpacity>
