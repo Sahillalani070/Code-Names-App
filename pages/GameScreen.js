@@ -6,6 +6,7 @@ import Icon from 'react-native-ico-material-design';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { AddOrJoinGame } from "../Helpers/GameHelper"
 import { Isao } from 'react-native-textinput-effects';
+import { Auth, DataStore } from 'aws-amplify'
 
 
 const NewGame = () => {
@@ -113,6 +114,18 @@ const NewGame = () => {
                         }}>
                         <View>
                             <Text style={{ textAlign: "center", alignSelf: "center", color: "white", paddingTop: 10 }}>Play Game</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ width: "50%", height: 50, paddingTop: 7, alignSelf: "center", backgroundColor: "teal", borderRadius: 10 }}
+                        onPress={() => {
+                            console.log("Logout Tapped");
+                            DataStore.clear();
+                            Auth.signOut();
+                            // setOpenModal(true);
+                            // AddOrJoinGame();
+                        }}>
+                        <View>
+                            <Text style={{ textAlign: "center", alignSelf: "center", color: "white", paddingTop: 10 }}>LOGOUT</Text>
                         </View>
                     </TouchableOpacity>
                 </View>

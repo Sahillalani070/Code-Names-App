@@ -1,29 +1,47 @@
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from "react-native";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import jsonData from "../dict.json";
 import { StatusBar } from "expo-status-bar";
 import Icon from 'react-native-ico-material-design';
 import { useNavigation } from "@react-navigation/native";
-import { Auth, DataStore, API, graphqlOperation } from "aws-amplify";
+// import { generateClient } from '@aws-amplify/core';
+import { Amplify, Auth, DataStore, API, graphqlOperation } from "aws-amplify";
 import { GameSession, Player, StateGame, TeamColor } from "../src/models";
-import { createGameSession, createPlayer } from "../src/graphql/mutations";
+import { createGameSession, updateGameSession } from "../src/graphql/mutations";
 import * as queries from '../src/graphql/queries';
 
 import "@azure/core-asynciterator-polyfill";
+import awsmobile from "../src/aws-exports";
+
+// const client = generateClient()
+Amplify.configure(awsmobile);
+
 // extracting data
 const DataList = jsonData.words;
 var value = IndicestoWords();
 var mapvals = mapGen();
 var maplist = mapvals[0];
 var startteam = mapvals[1];
-console.log(maplist);
+// console.log(maplist);
 // const [game, setGame] = useState(null);
-
+var playerList: any[] = [];
+// function NewGame() {
+//     useEffect(() => {
+//         const userData = Auth.currentAuthenticatedUser();
+//         const newUser = 
+//     });
+//     AddOrJoinGame();
+// }
 const AddOrJoinGame = async () => {
-    const game = await availableGame();
+    console.warn("Create online Game");
+    const gamedata = await availableGame();
+
     // code to join pre-existing game
-    if (game.length > 0) {
-        joinGame(game[0]);
+    if (gamedata.length > 0) {
+        const game = gamedata[0];
+        playerList = game.Players;
+        console.log("GAAAMEEE", game)
+        joinGame(game);
     }
     // code to create a new game
     else {
@@ -31,53 +49,66 @@ const AddOrJoinGame = async () => {
     }
 }
 const availableGame = async () => {
+    // console.log("available game", game);
     const result = await API.graphql({ query: queries.listGameSessions });
+    // console.log(result);
     const game = result.data.listGameSessions.items;
-    console.log("Queried Data:", game);
+    // console.log("Queried Data:", game[0]);
     return game;
 }
 const joinGame = async (game) => {
-    console.log(`joining ${GameSession}`)
+    // console.log(`joining ${game}`)
+    const userData = await Auth.currentAuthenticatedUser();
+    const nickname = userData.attributes.nickname
+    // console.log(playerList)
+    if (!playerList.includes(nickname)) {
+        playerList.push(nickname);
+    }
+    console.log("UPDATED pLAYER LIST:", playerList);
+    try {
+        const updateGame = await API.graphql({
+            query: updateGameSession,
+            variables: {
+                input: {
+                    "id": `${game.id}`,
+                    "Players": playerList,
+                    "GameState": StateGame.WAITING,
+                    "CurrentTurn": TeamColor.UNDECIDED
+                }
+            }
+        }
+        );
+        // console.log("updated Game:", updateGame)
+    }
+    catch (error) {
+        console.error(error);
+    }
 }
+const deleteGame = async (game) => {
+    console.log(`Deleting ${game}`)
+}
+
 const createGame = async () => {
     const userData = await Auth.currentAuthenticatedUser();
-
-    // const response = await API.graphql(graphqlOperation(createPlayer, {
-    //     input: {
-    //         id: userData.attributes.sub,
-    //         PlayerName: userData.attributes.nickname,
-    //         Team: TeamColor.UNDECIDED,
-    //         Score: 0,
-    //     },
-    // }),
-    // );
-    // console.log("Response: \n");
-    // console.log(response);
-
-    const response2 = await API.graphql(graphqlOperation(createGameSession, {
-        input: {
-            Players: [userData.attributes.nickname],
-            GameState: StateGame.WAITING,
-            CurrentTurn: TeamColor.UNDECIDED,
-        },
-    }),
-    );
-    console.log("Response: \n");
-    console.log(response2);
-    // const newPlayer = await DataStore.save(new Player({
-    //     PlayerName: userData.attributes.nickname,
-    //     Team: TeamColor.UNDECIDED,
-    //     Score: 0
-    // })
-    // );
-    // console.log(userData)
-    //     const newGame = new GameSession({
-    //         Players: [userData.attributes.nickname],
-    //         GameState: StateGame.WAITING,
-    //         CurrentTurn: TeamColor.UNDECIDED
-    //     });
-    //     // console.log(newGame);
-    //     await DataStore.save(newGame);
+    const nickname = userData.attributes.nickname
+    // console.log("userData: ", userData);
+    try {
+        // console.log("API: ", API)
+        const response = await API.graphql({
+            query: createGameSession,
+            variables: {
+                input: {
+                    "Players": [nickname],
+                    "GameState": StateGame.WAITING,
+                    "CurrentTurn": TeamColor.UNDECIDED
+                }
+            }
+        });
+        console.log("Response: \n", response);
+    }
+    catch (error) {
+        console.error(error);
+    }
 };
 
 // Generate Random indicies
