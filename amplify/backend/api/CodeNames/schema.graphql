@@ -1,13 +1,44 @@
+type Map @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  GameSession: GameSession @hasOne
+  val1: WordType
+  val2: WordType
+  val3: WordType
+  val4: WordType
+  val5: WordType
+  val6: WordType
+  val7: WordType
+  val8: WordType
+  val9: WordType
+  val10: WordType
+  val11: WordType
+  val12: WordType
+  val13: WordType
+  val14: WordType
+  val15: WordType
+  val16: WordType
+  val17: WordType
+  val18: WordType
+  val19: WordType
+  val20: WordType
+  val21: WordType
+  val22: WordType
+  val23: WordType
+  val24: WordType
+  val25: WordType
+}
+
 enum WordState {
   RED
   BLUE
-  ASSASSIN
-  NEUTRAL
+  GREY
+  WHITE
 }
 
 type WordType {
   Word: String
   Type: WordState
+  Hidden: Boolean
 }
 
 type Player @model @auth(rules: [{allow: public}]) {
